@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>Socket IO Demo</title>
+  <script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var sock = new io.Socket();
+      sock.on('message', function (data) {
+          var obj = JSON.parse(data);
+          if(obj.message) {
+            $('#message').text(obj.message);
+          } else {
+            $('#timestamp').text(obj.timestamp);
+            $('#clients').text(obj.clients);
+          }
+        });
+      sock.connect();
+      $("#poke").click(function() { sock.send("Poke !") });
+    });
+  </script>
+</head>
+<body>
+  <div>
+    <h2>Démo Node.JS + Socket IO</h2>
+    <label for="timestamp">Timestamp</label>
+    <span id="timestamp"></span>
+    <br />
+    <label for="clients">Clients</label>
+    <span id="clients"></span>
+    <br />
+    <label for="message">Message</label>
+    <span id="message"></span>
+    <br />
+    <button id="poke">Send poke !</button>
+  </div>
+</body>
+</html>
